@@ -20,8 +20,7 @@ var (
 		Timestamp().
 		Logger()
 
-	commonClaim  = jwt.Claims{}
-	confFilePath = "config.yaml"
+	commonClaim = jwt.Claims{}
 )
 
 func main() {
@@ -44,9 +43,6 @@ func main() {
 			}
 			zlog.Set(&logout)
 			commonClaim.Issuer = c.String("issuer")
-			if c.IsSet("config") {
-				confFilePath = c.Path("config")
-			}
 			return nil
 		},
 		Commands: []*cli.Command{
@@ -62,14 +58,6 @@ func main() {
 			&cli.BoolFlag{
 				Name:  "q",
 				Usage: "quieter log output",
-			},
-			&cli.PathFlag{
-				Name:      "config",
-				Aliases:   []string{"c"},
-				Usage:     "clair configuration file",
-				Value:     "config.yaml",
-				TakesFile: true,
-				EnvVars:   []string{"CLAIR_CONF"},
 			},
 		},
 		ExitErrHandler: func(c *cli.Context, err error) {
